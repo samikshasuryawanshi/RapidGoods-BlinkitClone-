@@ -30,7 +30,7 @@ router.get('/',userIsLoggedIn,async function(req, res){
 
 
     let cart =  await cartModel.findOne({user : req.session.passport.user});
-    console.log(cart);
+    // console.log(cart);
     
     if(cart && cart.products.length > 0)  somethingInCart = true;
 

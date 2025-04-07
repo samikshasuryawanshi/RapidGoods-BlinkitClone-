@@ -7,6 +7,8 @@ const productRouter = require("./routes/product")
 const categoryRouter = require("./routes/category")
 const cartRouter = require("./routes/cart")
 const userRouter = require("./routes/user")
+const paymentRouter = require("./routes/payment")
+const orderRouter = require("./routes/order")
 const path = require('path')
 const expressSession = require("express-session")
 const cookieParser = require("cookie-parser");
@@ -41,6 +43,8 @@ app.use("/products",productRouter)
 app.use("/categories",categoryRouter)
 app.use("/users",userRouter)
 app.use("/cart",cartRouter)
+app.use("/payment",paymentRouter)
+app.use("/order",orderRouter)
 
 
 app.listen(3000)

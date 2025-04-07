@@ -14,127 +14,244 @@
             height:60vh;
             background-color: #f0f0f0;
         }
+
         #random::-webkit-scrollbar{
             display: none;
         }
-       @media (max-width: 768px) {
-        .swiper-container{
-            display: block !important;;
+
+        .nav-link {
+            position: relative;
         }
-        .products{
-            display: grid;
-            grid-column: 4 !important;
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #000;
+            transition: width 0.3s ease;
         }
-       }
-       
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .swiper-container{
+                display: block !important;
+            }
+            .products{
+                display: grid;
+                grid-column: 4 !important;
+            }
+        }
     </style>
 
     <body class="bg-gray-100 overflow-x-hidden font-sans">
-        <div class="w-screen p-4">
-            <div class=" flex items-center bg-white rounded mb-5 justify-between px-2 py-2">
-                <div class="flex items-center justify-center gap-1">
-                    <i class="ri-home-heart-fill  text-2xl"></i>
-                    <h1 class=" text-xl font-medium">RapidGoods</h1>
-                </div>
-                <button class="px-6 py-2 bg-black text-white text-sm rounded cursor">Explore More</button>
-           </div>
-            <!-- Order Now Section -->
-            <div class="bg-white p-4 rounded-lg shadow mb-4">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-semibold">Order Now</h2>
-                    <button class="text-blue-500">see all</button>
-                </div> 
-                <div id="random" class="flex space-x-4 mt-4 overflow-x-auto ">
-                    <% randomProduct.forEach(function(elem){ %>
-                    <div class="flex w-32 flex-shrink-0 flex-col items-center">
-                        <div class="relative">
-                            <img class="h-24 rounded" src="data:image/png;base64, <%= elem.image.toString('base64') %>" alt="<%= elem.name %>">
+        <!-- Navigation Bar -->
+        <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <!-- Left section -->
+                    <div class="flex items-center space-x-8">
+                        <a href="/" class="flex items-center space-x-2">
+                            <i class="ri-home-heart-fill text-2xl"></i>
+                            <span class="text-xl font-semibold text-gray-900">RapidGoods</span>
+                        </a>
+                        <div class="hidden md:flex items-center space-x-6">
+                            <a href="/" class="nav-link text-gray-600 hover:text-black px-3 py-2 text-sm font-medium">
+                                Home
+                            </a>
+                            <a href="/products" class="nav-link text-gray-600 hover:text-black px-3 py-2 text-sm font-medium">
+                                Products
+                            </a>
                         </div>
+                    </div>
 
-                        <p class="text-sm text-center mt-2">
+                    <!-- Right section - User menu -->
+                    <div class="flex items-center space-x-4">
+                        <a href="/cart" class="relative text-gray-600 hover:text-black">
+                            <i class="ri-shopping-cart-line text-xl"></i>
+                            <% if(cartCount > 0) { %>
+                                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <%= cartCount %>
+                                </span>
+                            <% } %>
+                        </a>
+                        <div class="relative group">
+                            <button class="flex items-center space-x-2 text-gray-700 hover:text-black focus:outline-none">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="ri-user-line"></i>
+                                </div>
+                                <span class="hidden md:block text-sm font-medium">Account</span>
+                                <i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+                                <a href="/users/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="ri-user-settings-line mr-2"></i>Profile
+                                </a>
+                                <a href="/orders" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="ri-shopping-bag-line mr-2"></i>My Orders
+                                </a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="/users/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    <i class="ri-logout-box-line mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="w-screen p-4">
+            <!-- Order Now Section -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Order Now</h2>
+                    <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">See all</button>
+                </div> 
+                <div id="random" class="flex space-x-6 mt-4 overflow-x-auto">
+                    <% randomProduct.forEach(function(elem){ %>
+                    <div class="flex w-36 flex-shrink-0 flex-col items-center bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200">
+                        <div class="relative">
+                            <img class="h-28 w-28 object-cover rounded-lg" src="data:image/png;base64, <%= elem.image.toString('base64') %>" alt="<%= elem.name %>">
+                        </div>
+                        <p class="text-sm font-medium text-center mt-3 text-gray-800">
                             <%= elem.name %>
                         </p>
-                        <p class="text-xs text-gray-500 line-through">
+                        <p class="text-xs text-gray-500 line-through mt-1">
                             ₹ <%= Number(elem.price) + Math.floor(Math.random()*100) %>
                         </p>
-                        <p class="font-bold">
+                        <p class="font-bold text-gray-800 mt-1">
                             ₹ <%= elem.price %>
                         </p>
-                        <a href="/cart/add/<%= elem._id %>" class="px-8 text-white text-sm rounded mt-2 inline-block py-1 bg-green-700" ><i class="ri-shopping-cart-line"></i></a>
-                        
+                        <a href="/cart/add/<%= elem._id %>" class="w-full text-center text-white text-sm rounded mt-3 py-2 bg-green-700 hover:bg-green-800 transition-colors duration-200">
+                            <i class="ri-shopping-cart-line"></i> Add to Cart
+                        </a>
                     </div>
-                     <% }) %>
-                   
+                    <% }) %>
                 </div>
             </div>
 
             <!-- Offers Section -->
-            <div class="swiper-container hidden my-10 w-full overflow-hidden">
-                <div class="swiper-wrapper">
-                    
-                    <div class="swiper-slide rounded-xl overflow-hidden">
-                        <img class="h-full w-screen object-cover"
-                            src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=720/layout-engine/2023-07/pharmacy-WEB.jpg"
-                            alt="">
+            <div class="my-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Pharmacy Offer Card -->
+                    <div class="relative group overflow-hidden rounded-xl shadow-lg">
+                        <img class="h-[300px] w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Pharmacy Offers">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-2">Pharmacy Essentials</h3>
+                                <p class="text-white/90 mb-4">Get up to 50% off on health products</p>
+                                <a href="/products?category=Pharmacy" 
+                                   class="inline-flex items-center px-4 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
+                                    Shop Now
+                                    <i class="ri-arrow-right-line ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            New
+                        </div>
                     </div>
-                    <div class="swiper-slide rounded-xl overflow-hidden">
-                        <img class=" h-full w-screen object-cover"
-                            src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=720/layout-engine/2023-07/Pet-Care_WEB.jpg"
-                            alt="">
+
+                    <!-- Pet Care Offer Card -->
+                    <div class="relative group overflow-hidden rounded-xl shadow-lg">
+                        <img class="h-[300px] w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                            alt="Pet Care Offers">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-2">Pet Care Special</h3>
+                                <p class="text-white/90 mb-4">Premium pet products at amazing prices</p>
+                                <a href="/products?category=Pet%20Care" 
+                                   class="inline-flex items-center px-4 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
+                                    Shop Now
+                                    <i class="ri-arrow-right-line ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Best Deal
+                        </div>
+                    </div>
+
+                    <!-- Grocery Offer Card -->
+                    <div class="relative group overflow-hidden rounded-xl shadow-lg">
+                        <img class="h-[300px] w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Grocery Offers">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 class="text-2xl font-bold text-white mb-2">Grocery Deals</h3>
+                                <p class="text-white/90 mb-4">Fresh groceries at your doorstep</p>
+                                <a href="/products?category=Grocery" 
+                                   class="inline-flex items-center px-4 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
+                                    Shop Now
+                                    <i class="ri-arrow-right-line ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Trending
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-
             <!-- Grocery & Kitchen Section -->
             <% for(let key in products){ %>
-                <div class="bg-white p-4 rounded-lg shadow mb-10">
-                    <h2 class="text-xl text-center bg-yellow-400 px-2 py-3 rounded font-semibold">
+                <div class="bg-white p-6 rounded-lg shadow mb-8">
+                    <h2 class="text-xl text-center bg-yellow-400 text-gray-800 px-4 py-3 rounded-lg font-semibold mb-6">
                         <%= key %>
                     </h2>
-                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mt-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         <% products[key].forEach(function(elem){ %>
-                            <div class="flex flex-col w-26 items-center flex-shrink-0" >
-                                <img class="h-24 rounded" src="data:image/png;base64, <%= elem.image.toString('base64') %>" alt="<%= elem.name %>">
-                                <div class="h-16 flex flex-col items-center">
-                                    <p class=" text-center font-medium mt-2"> <%= elem.name %></p>
-                                   <p class="font-semibold text-gray-800">
-                                      ₹ <%= elem.price %>
-                                   </p>
+                            <div class="flex flex-col items-center bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200">
+                                <img class="h-28 w-28 object-cover rounded-lg" src="data:image/png;base64, <%= elem.image.toString('base64') %>" alt="<%= elem.name %>">
+                                <div class="mt-3 text-center">
+                                    <p class="text-sm font-medium text-gray-800"> <%= elem.name %></p>
+                                    <p class="font-semibold text-gray-800 mt-1">
+                                        ₹ <%= elem.price %>
+                                    </p>
                                 </div>
-                               <a href="/cart/add/<%= elem._id %>" class="px-6 text-white text-xs rounded mt-2 inline-block py-2 bg-green-700" >ADD <i class="ri-shopping-cart-line"></i></a>
+                                <a href="/cart/add/<%= elem._id %>" class="w-full text-center text-white text-sm rounded mt-3 py-2 bg-green-700 hover:bg-green-800 transition-colors duration-200">
+                                    <i class="ri-shopping-cart-line"></i> Add to Cart
+                                </a>
                             </div>
                         <% }); %>
                     </div>
                 </div>
-             <% } %>
+            <% } %>
 
-
-                <!-- Footer -->
-               <% if(somethingInCart){ %>
+            <!-- Footer -->
+            <% if(somethingInCart){ %>
                 <div class="py-20"></div>
-                <div class="bg-white p-4 rounded-lg shadow fixed bottom-0 inset-x-0">
-                    <div class="flex justify-between  bg-gray-50  py-2 px -4 items-center mb-5">
+                <div class="bg-white p-4 rounded-lg shadow-lg fixed bottom-0 inset-x-0 mx-4 mb-4">
+                    <div class="flex justify-between items-center bg-gray-50 rounded-lg py-3 px-4 mb-4">
                         <div>
-                            <p class="text-sm">Get FREE delivery</p>
+                            <p class="text-sm font-medium text-gray-800">Get FREE delivery</p>
                             <p class="text-xs text-gray-500">Add products worth ₹236 more</p>
                         </div>
-                        <button class="text-blue-500">See all coupons</button>
+                        <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">See all coupons</button>
                     </div>
                     <div class="flex flex-col">
-                        <div>
-                           <%= cartCount %> Item <i class="ri-shopping-cart-fill"></i></i> -
+                        <div class="text-sm text-gray-600 mb-2">
+                            <%= cartCount %> Item <i class="ri-shopping-cart-fill"></i>
                         </div>
-                        <a href="/cart"
-                            class="flex items-center justify-center w-full py-3 bg-green-700 text-white rounded-lg">
+                        <a href="/cart" class="flex items-center justify-center w-full py-3 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors duration-200">
                             <span class="text-lg">Next</span>
                             <i class="text-2xl ri-arrow-right-s-fill"></i>
                         </a>
                     </div>
                 </div>
-               <% } %>
-                <!--  -->
+            <% } %>
         </div>
 
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -173,4 +290,5 @@
             });
         </script>
     </body>
-<%- include('./partials/footer'); %>
+
+    <%- include('./partials/footer'); %>

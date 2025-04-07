@@ -193,10 +193,10 @@
                 axios.post('/payment/create/orderId')
                     .then(function (response) {
                         var options = {
-                            "key": "rzp_test_cAa3gCF0eP8i4R", // Enter the Key ID generated from the Dashboard
+                            "key": "rzp_test_mPrfMJIy2Vcxb5", // Enter the Key ID generated from the Dashboard
                             "amount": response.data.amount, // Amount in currency subunits. Default currency is INR.
                             "currency": response.data.currency,
-                            "name": "BlinkIt",
+                            "name": "RapidGoods",
                             "description": "Test Transaction",
                             "image": "https://example.com/your_logo",
                             "order_id": response.data.id,
@@ -215,8 +215,8 @@
                                     });
                             },
                             "prefill": {
-                                "name": "Harsh Sharma",
-                                "email": "harsh.sharma@example.com",
+                                "name": "samii",
+                                "email": "samii@example.com",
                                 "contact": "9000090000"
                             },
                             "notes": {

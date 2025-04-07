@@ -4,6 +4,10 @@ const Joi = require('joi');
 
 // Define the Order Schema for Mongoose
 const orderSchema = mongoose.Schema({
+    orderId:{
+        type:String,
+        required:true,
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
@@ -23,7 +27,6 @@ const orderSchema = mongoose.Schema({
     },
     address: {
         type: String,
-        required: [true, 'Delivery address is required'],
         trim: true,
         minlength: [10, 'Address must be at least 10 characters long'],
         maxlength: [200, 'Address cannot exceed 200 characters']
@@ -42,7 +45,6 @@ const orderSchema = mongoose.Schema({
     delivery: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "delivery",
-        required: [true, 'Delivery reference is required']
     }
 }, { timestamps: true });
 

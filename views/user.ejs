@@ -1,0 +1,149 @@
+<%- include('./partials/header'); %>
+
+    <body class="bg-gray-50">
+        <div class="min-h-screen">
+            <!-- Navigation Bar -->
+            <nav class="bg-white shadow-sm">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center space-x-8">
+                            <a href="/" class="flex items-center space-x-2">
+                                <i class="ri-home-heart-fill text-2xl"></i>
+                                <span class="text-xl font-semibold text-gray-900">RapidGoods</span>
+                            </a>
+                            <div class="hidden md:flex items-center space-x-6">
+                                <a href="/" class="nav-link text-gray-600 hover:text-black px-3 py-2 text-sm font-medium">
+                                    Home
+                                </a>
+                                <a href="/products" class="nav-link text-gray-600 hover:text-black px-3 py-2 text-sm font-medium">
+                                    Products
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <a href="/cart" class="relative text-gray-600 hover:text-black">
+                                <i class="ri-shopping-cart-line text-xl"></i>
+                                <% if(cartCount > 0) { %>
+                                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        <%= cartCount %>
+                                    </span>
+                                <% } %>
+                            </a>
+                            <div class="relative group">
+                                <button class="flex items-center space-x-2 text-gray-700 hover:text-black focus:outline-none">
+                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                        <i class="ri-user-line"></i>
+                                    </div>
+                                    <span class="hidden md:block text-sm font-medium">Account</span>
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+                                    <a href="/users/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-user-settings-line mr-2"></i>Profile
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="/users/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                        <i class="ri-logout-box-line mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <!-- Profile Header -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-10">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center">
+                                <i class="ri-user-line text-3xl text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900"><%= user.name %></h1>
+                                <p class="text-gray-600 mt-1"><%= user.email %></p>
+                                <div class="flex items-center mt-2 space-x-4">
+                                    <span class="text-sm text-gray-500">Member since <%= new Date(user.createdAt).toLocaleDateString() %></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Content -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+                        <!-- Personal Information -->
+                        <div class="bg-white rounded-lg border border-gray-100 p-6">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-sm text-gray-500">Full Name</label>
+                                    <p class="text-gray-900 font-medium mt-1"><%= user.name %></p>
+                                </div>
+                                <div>
+                                    <label class="text-sm text-gray-500">Email</label>
+                                    <p class="text-gray-900 font-medium mt-1"><%= user.email %></p>
+                                </div>
+                                <div>
+                                    <label class="text-sm text-gray-500">Phone Number</label>
+                                    <p class="text-gray-900 font-medium mt-1"><%= user.phone || 'Not provided' %></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="bg-white rounded-lg border border-gray-100 p-6">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+                            <div class="space-y-3">
+                                <a href="/cart" class="flex items-center text-gray-700 hover:text-blue-600 transition-colors duration-200">
+                                    <i class="ri-shopping-cart-line mr-2"></i>
+                                    <span>View Cart</span>
+                                </a>
+                                <div class="border-t border-gray-100 my-3"></div>
+                                <a href="/logout" class="flex items-center text-red-600 hover:text-red-800 transition-colors duration-200">
+                                    <i class="ri-logout-box-line mr-2"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recent Orders -->
+                        <div class="md:col-span-2">
+                            <div class="bg-white rounded-lg border border-gray-100 p-6">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Orders</h2>
+                                <% if(user.orders && user.orders.length > 0) { %>
+                                    <div class="space-y-3">
+                                        <% user.orders.slice(0, 3).forEach(function(order) { %>
+                                            <div class="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition-colors duration-200">
+                                                <div class="flex justify-between items-start">
+                                                    <div>
+                                                        <p class="font-medium text-gray-900">Order #<%= order._id.toString().slice(-6) %></p>
+                                                        <p class="text-sm text-gray-500 mt-1"><%= new Date(order.createdAt).toLocaleDateString() %></p>
+                                                    </div>
+                                                    <span class="px-3 py-1 text-sm rounded-full 
+                                                        <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                                            order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800' : 
+                                                            'bg-blue-100 text-blue-800' %>">
+                                                        <%= order.status %>
+                                                    </span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm text-gray-600">Total: ₹<%= order.total %></p>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } else { %>
+                                    <p class="text-gray-500 text-center py-4">No orders yet</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+
+    <%- include('./partials/footer'); %>
