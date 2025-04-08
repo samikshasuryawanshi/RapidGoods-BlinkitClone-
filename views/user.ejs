@@ -21,10 +21,10 @@
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="/cart" class="relative text-gray-600 hover:text-black">
+                            <a href="/cart" class="relative text-gray-600 hover:text-black inline-flex items-center">
                                 <i class="ri-shopping-cart-line text-xl"></i>
                                 <% if(cartCount > 0) { %>
-                                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hover:animate-pulse">
                                         <%= cartCount %>
                                     </span>
                                 <% } %>
@@ -39,8 +39,8 @@
                                 </button>
                                 <!-- Dropdown menu -->
                                 <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-                                    <a href="/users/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="ri-user-settings-line mr-2"></i>Profile
+                                    <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-home-line mr-2"></i>Home
                                     </a>
                                     <div class="border-t border-gray-100 my-1"></div>
                                     <a href="/users/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
@@ -57,16 +57,18 @@
             <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                     <!-- Profile Header -->
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-10">
-                        <div class="flex items-center space-x-6">
-                            <div class="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center">
-                                <i class="ri-user-line text-3xl text-blue-600"></i>
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-12">
+                        <div class="flex items-center space-x-4">
+                            <div class="px-2 py-1 rounded-full bg-white shadow-sm flex items-center justify-center">
+                                <i class="ri-user-line text-4xl text-blue-600"></i>
                             </div>
-                            <div>
-                                <h1 class="text-2xl font-bold text-gray-900"><%= user.name %></h1>
-                                <p class="text-gray-600 mt-1"><%= user.email %></p>
-                                <div class="flex items-center mt-2 space-x-4">
-                                    <span class="text-sm text-gray-500">Member since <%= new Date(user.createdAt).toLocaleDateString() %></span>
+                            <div class="flex-1 min-w-0">
+                                <h1 class="text-2xl font-bold text-gray-900 truncate"><%= user.name %></h1>
+                                <p class="text-gray-600 mt-2 text-sm truncate"><%= user.email %></p>
+                                <div class="flex items-center mt-3 space-x-4">
+                                    <span class="text-sm text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm">
+                                        Member since <%= new Date(user.createdAt).toLocaleDateString() %>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -94,16 +96,23 @@
                         </div>
 
                         <!-- Quick Actions -->
-                        <div class="bg-white rounded-lg border border-gray-100 p-6">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-                            <div class="space-y-3">
-                                <a href="/cart" class="flex items-center text-gray-700 hover:text-blue-600 transition-colors duration-200">
-                                    <i class="ri-shopping-cart-line mr-2"></i>
+                        <div class="bg-white rounded-xl border border-gray-100 p-6 transform hover:shadow-md transition-all duration-300">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                                <i class="ri-flashlight-line text-blue-600 mr-2"></i>
+                                Quick Actions
+                            </h2>
+                            <div class="space-y-2">
+                                <a href="/cart" class="flex items-center text-gray-700 hover:text-blue-600 transition-all duration-200 p-3 rounded-lg hover:bg-blue-50 hover:shadow-sm">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 group-hover:bg-blue-100">
+                                        <i class="ri-shopping-cart-line text-blue-600"></i>
+                                    </div>
                                     <span>View Cart</span>
                                 </a>
-                                <div class="border-t border-gray-100 my-3"></div>
-                                <a href="/logout" class="flex items-center text-red-600 hover:text-red-800 transition-colors duration-200">
-                                    <i class="ri-logout-box-line mr-2"></i>
+                                <div class="border-t border-gray-100 my-2"></div>
+                                <a href="/logout" class="flex items-center text-red-600 hover:text-red-800 transition-all duration-200 p-3 rounded-lg hover:bg-red-50 hover:shadow-sm">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center mr-3 group-hover:bg-red-100">
+                                        <i class="ri-logout-box-line text-red-600"></i>
+                                    </div>
                                     <span>Logout</span>
                                 </a>
                             </div>
@@ -111,32 +120,42 @@
 
                         <!-- Recent Orders -->
                         <div class="md:col-span-2">
-                            <div class="bg-white rounded-lg border border-gray-100 p-6">
-                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Orders</h2>
+                            <div class="bg-white rounded-xl border border-gray-100 p-6 transform hover:shadow-md transition-all duration-300">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                                    <i class="ri-shopping-bag-line text-blue-600 mr-2"></i>
+                                    Recent Orders
+                                </h2>
                                 <% if(user.orders && user.orders.length > 0) { %>
-                                    <div class="space-y-3">
+                                    <div class="space-y-4">
                                         <% user.orders.slice(0, 3).forEach(function(order) { %>
-                                            <div class="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition-colors duration-200">
+                                            <div class="border border-gray-100 rounded-xl p-5 hover:bg-blue-50 transition-all duration-300 transform hover:scale-[1.01] hover:shadow-sm">
                                                 <div class="flex justify-between items-start">
                                                     <div>
                                                         <p class="font-medium text-gray-900">Order #<%= order._id.toString().slice(-6) %></p>
                                                         <p class="text-sm text-gray-500 mt-1"><%= new Date(order.createdAt).toLocaleDateString() %></p>
                                                     </div>
-                                                    <span class="px-3 py-1 text-sm rounded-full 
-                                                        <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
-                                                            order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800' : 
-                                                            'bg-blue-100 text-blue-800' %>">
+                                                    <span class="px-4 py-1.5 text-sm rounded-full font-medium
+                                                        <%= order.status === 'Delivered' ? 'bg-green-50 text-green-700 border border-green-100' : 
+                                                            order.status === 'Processing' ? 'bg-yellow-50 text-yellow-700 border border-yellow-100' : 
+                                                            'bg-blue-50 text-blue-700 border border-blue-100' %>">
                                                         <%= order.status %>
                                                     </span>
                                                 </div>
-                                                <div class="mt-2">
+                                                <div class="mt-3 flex items-center">
+                                                    <i class="ri-money-dollar-circle-line text-gray-400 mr-2"></i>
                                                     <p class="text-sm text-gray-600">Total: ₹<%= order.total %></p>
                                                 </div>
                                             </div>
                                         <% }); %>
                                     </div>
                                 <% } else { %>
-                                    <p class="text-gray-500 text-center py-4">No orders yet</p>
+                                    <div class="text-center py-8">
+                                        <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
+                                            <i class="ri-shopping-bag-line text-3xl text-gray-300"></i>
+                                        </div>
+                                        <p class="text-gray-500">No orders yet</p>
+                                        <p class="text-sm text-gray-400 mt-1">Start shopping to see your orders here</p>
+                                    </div>
                                 <% } %>
                             </div>
                         </div>

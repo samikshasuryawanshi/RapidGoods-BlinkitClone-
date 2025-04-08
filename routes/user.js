@@ -3,6 +3,7 @@ const router = express.Router();
 const {userModel , validateUser} = require('../models/user')
 const {userIsLoggedIn} = require('../middlewares/admin')
 const {orderModel} = require('../models/order')
+const {cartModel} = require('../models/cart')
 
 
 router.get("/login",(req,res)=>{
@@ -24,7 +25,8 @@ router.get("/profile", userIsLoggedIn, async (req, res) => {
             .limit(3);
 
         // Get cart count for the header
-        const cartCount = user.cart ? user.cart.length : 0;
+        const cart = await cartModel.findOne({ user: user._id });
+        const cartCount = cart ? cart.products.length : 0;
 
         res.render("user", {
             user: {
